@@ -19,7 +19,7 @@ var esriLeafletMap = (function () {
       //url: 'https://services.arcgis.com/8ZpVMShClf8U8dae/ArcGIS/rest/services/TestingLocations_public/FeatureServer/0', //GISCorps Nation-wide map service
       where: "1=1",
       onEachFeature: function (feature, layer) {
-        console.dir(layer.feature);
+        //console.dir(layer.feature);
       },
       pointToLayer: function (geojson, latlng) {
         return L.marker(latlng, {

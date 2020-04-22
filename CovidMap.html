@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>COVID-19 Test Collection Sites</title>
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <style>
+    html,
+    body,
+    main
+      {
+      margin: 0;
+      padding: 0;
+      height:100%;
+      width:100%;
+    }
+    header {
+      text-align:center;
+    }
+    #map-container {
+      height: 400px;
+    }
+    #map {
+      height: 400px;
+      width: 1160px;
+    }
+    #map_messages_container {
+      bottom: 50px !important;
+      position: absolute !important;
+      right: auto !important;
+      top: auto !important;
+      color: white;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="header">
+      <div class="logo-container">
+          <h1 class="logo"><span>Minnesota</span> COVID-19 Test Collection Sites</h1>
+      </div>
+    </div>
+  </header>
+  <main>
+    <div id="map-container">
+      <div id="map"></div>
+      <div id="map_messages_container">
+        <div id="map_message">The message is here</div>
+      </div>
+    </div>
+  </main>
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <!-- Load Esri Leaflet from CDN -->
+  <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+    </script>
+  <script>
+    var sitesAsFeatures = function() {
+      var init = function(map) {
+      };
+      return {
+        init: init
+      }
+    }();
+    var esriLeafletMap = function () {
+      var init = function () {
+        var map = L.map('map').setView([46.5, -94], 6);
+        L.esri.basemapLayer('Topographic').addTo(map);
+        //L.esri.basemapLayer('Streets').addTo(map);
+        //if ($(window).width() < 800) {
+        //  $(".leaflet-control-container").hide();
+        //}
+
+        var siteIcon = L.icon({
+          iconUrl: 'MNMapPin.svg',
+          iconSize: [20, 20]
+        });
+
+        map.createPane('sites');
+        var testingSites = L.esri.featureLayer({
+          url: 'https://services1.arcgis.com/KoDrdxDCTDvfgddz/arcgis/rest/services/MockupSites/FeatureServer/0',
+          //url: 'https://services.arcgis.com/8ZpVMShClf8U8dae/ArcGIS/rest/services/TestingLocations_public/FeatureServer/0',
+          pointToLayer: function (geojson, latlng) {
+            return L.marker(latlng, {
+              icon: siteIcon,
+              renderer: L.svg()
+            });
+            // return L.circleMarker(latlng, {
+            //   pane: 'sites',
+            //   color: 'gray',
+            //   radius: 6, 
+            //   renderer: L.svg()
+            // });
+          }
+        });
+        map.addLayer(testingSites);
+        testingSites.bindPopup(function (layer){
+          return L.Util.template('Testing Site<p></p>', layer.feature.properties);
+        });
+      };
+      return {
+        init: init
+      };
+    }();
+    esriLeafletMap.init();
+  </script>
+</body>
+
+</html>

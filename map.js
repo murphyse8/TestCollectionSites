@@ -13,8 +13,9 @@ var esriLeafletMap = (function () {
 
     var testingSites = L.esri.featureLayer({
       //url: 'https://services1.arcgis.com/KoDrdxDCTDvfgddz/arcgis/rest/services/MockupSites/FeatureServer/0',
+      //url:  "https://services1.arcgis.com/KoDrdxDCTDvfgddz/ArcGIS/rest/services/CovidTestCollectionSites_Public/FeatureServer/0",
       url:
-        "https://services1.arcgis.com/KoDrdxDCTDvfgddz/ArcGIS/rest/services/CovidTestCollectionSites_Public/FeatureServer/0",
+        "https://arcgis.metc.state.mn.us/arcgis/rest/services/covid/TestCollectionLocations/MapServer/0/",
       //url: 'https://services.arcgis.com/8ZpVMShClf8U8dae/ArcGIS/rest/services/TestingLocations_public/FeatureServer/0', //GISCorps Nation-wide map service
       where: "1=1",
       onEachFeature: function (feature, layer) {
@@ -35,22 +36,24 @@ var esriLeafletMap = (function () {
     });
     map.addLayer(testingSites);
     testingSites.bindPopup(function (layer) {
-      return L.Util.template(
-        "<p>" +
-          "{ HealthSystem } <strong> { CollectSiteName }</strong >" +
-          "<br/>{ CollectAddress1 } { CollectAddress2 }" +
-          "<br/>{ City }, { State } { Zip }" +
-          "<br/><strong>Sun</strong> { HoursOfOpSun }" +
-          "<br/><strong>Mon</strong> { HoursOfOpMon }" +
-          "<br/><strong>Tue</strong> { HoursOfOpTues }" +
-          "<br/><strong>Wed</strong> { HoursOfOpWed }" +
-          "<br/><strong>Thu</strong> { HoursOfOpThurs }" +
-          "<br/><strong>Fri</strong> { HoursOfOpFri }" +
-          "<br/><strong>Sat</strong> { HoursOfOpSat }" +
-          "<br/><strong>Contact Info: { Phone }</strong>" +
-          "</p>",
-        layer.feature.properties
-      );
+      var l = layer.feature.properties;
+      var template =
+        l.HealthSystem == null
+          ? ""
+          : "{ HealthSystem }" +
+            "< strong > { CollectSiteName }</strong > " +
+            "<br/>{ CollectAddress1 } { CollectAddress2 }" +
+            "<br/>{ City }, { State }" +
+            "{ Zip }" +
+            "<br/><strong>Sun</strong> { HoursOfOpSatSun }" +
+            "<br/><strong>Mon</strong> { HoursOfOpMF }" +
+            "<br/><strong>Tue</strong> { HoursOfOpMF }" +
+            "<br/><strong>Wed</strong> { HoursOfOpMF }" +
+            "<br/><strong>Thu</strong> { HoursOfOpMF }" +
+            "<br/><strong>Fri</strong> { HoursOfOpMF }" +
+            "<br/><strong>Sat</strong> { HoursOfOpSatSun }" +
+            "<br/><strong>Contact Info: { Phone }</strong>";
+      return L.Util.template(template, layer.feature.properties);
     });
   };
   return {

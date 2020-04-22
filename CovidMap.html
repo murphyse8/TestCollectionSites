@@ -32,6 +32,38 @@
       top: auto !important;
       color: white;
     }
+
+  body {
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif
+  }
+  .site-pager ul {
+    display: inline-block;
+      padding-inline-start: 0px;
+  }
+  .site-pager li {
+    display: inline-block;
+  }
+  .site-pager > a, .site-pager li a {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      padding: 8px 15px;
+      line-height: 2em;
+      text-decoration: none;
+  }
+  .site-pager > a:hover, .site-pager li a:hover,
+  .site-pager > a:focus, .site-pager li a:focus {
+      background-color: lightblue;
+  }
+  .site-pager .current {
+    background-color: lightblue;
+  }
+
+  .site-pager .page-count {
+    display: inline-block;
+    margin-left: 30px;
+  }
+
   </style>
 </head>
 
@@ -50,7 +82,32 @@
         <div id="map_message"></div>
       </div>
     </div>
-    <div id="sitelist">Site List here</div>
+    <div id="sitelist-wrapper">
+      <div id="SitePager" class="site-pager">
+        <a href="#" aria-label="Go to the first page" title="Go to the first page" class="pager-first" data-page="1" >&lt;&lt;</a>
+        <a href="#" aria-label="Go to the previous page" title="Go to the previous page" class="pager-prev" data-page="1" >&lt;</a>
+        <ul>
+          <li><a href="#" class="page current" data-page="1">1</a></li>
+          <li><a href="#" class="page" data-page="2">2</a></li>
+          <li><a href="#" class="page" data-page="3">3</a></li>
+          <li><a href="#" class="page" data-page="4">4</a></li>
+        </ul>
+        <a href="#" aria-label="Go to the next page" title="Go to the next page" class="pager-next" data-page="1" >&gt;</a>
+        <a href="#" aria-label="Go to the last page" title="Go to the last page" class="pager-last" data-page="1" >&gt;&gt;</span></a>
+        <div class="page-count">
+
+        </div>
+      </div>
+      <div id="SiteList" class="site-list">
+        <div class="directory-item">
+        </div>
+        <div class="directory-item">
+        </div>
+        <div class="directory-item">
+        </div>
+      </div>
+
+    </div>
   </main>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

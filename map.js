@@ -38,10 +38,8 @@ var esriLeafletMap = (function () {
     testingSites.bindPopup(function (layer) {
       var l = layer.feature.properties;
       var template =
-        l.HealthSystem == null
-          ? ""
-          : "{ HealthSystem }" +
-            "< strong > { CollectSiteName }</strong > " +
+            "{ HealthSystem }" +
+            "<strong> { CollectSiteName }</strong> " +
             "<br/>{ CollectAddress1 } { CollectAddress2 }" +
             "<br/>{ City }, { State }" +
             "{ Zip }" +

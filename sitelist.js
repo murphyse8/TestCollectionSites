@@ -98,7 +98,25 @@
 	      $.each(siteData, function (idx, result) {
 	      		currentCount++;
 	      		if (currentCount > (currentPage - 1) * pageSize && currentCount < (currentPage * pageSize + 1)) {
-					$newSite = $("<div class='directory-item'></div>").text(result.CollectSiteName);
+					$newSite = $("<div class='directory-item'></div>")
+
+					$newSite.append($("<div class='site-name'></div>").text(result.CollectSiteName));
+					$newSite.append($("<div class='health-system'></div>").text(result.HealthSystem));
+					$newSite.append($("<div class='site-address'></div>").html(result.CollectAddress1 + '<br>' + (result.CollectAddress2 ? result.CollectAddress2 + '<br>' : '') + result.City + ', ' + result.State + ' ' + (result.Zip ? result.Zip : '')));
+
+					$siteHours = $('<ul class="site-hours"></ul>');
+					var day = new Date().getDay()
+					if (result.HoursOfOpMon) $siteHours.append($('<li></li>').text('Monday ' + result.HoursOfOpMon).addClass(day == 1 ? 'current' : ''));
+					if (result.HoursOfOpTue) $siteHours.append($('<li></li>').text('Tuesday ' + result.HoursOfOpTue).addClass(day == 2 ? 'current' : ''));
+					if (result.HoursOfOpWed) $siteHours.append($('<li></li>').text('Wednesday ' + result.HoursOfOpWed).addClass(day == 3 ? 'current' : ''));
+					if (result.HoursOfOpThu) $siteHours.append($('<li></li>').text('Thursday ' + result.HoursOfOpThu).addClass(day == 4 ? 'current' : ''));
+					if (result.HoursOfOpFri) $siteHours.append($('<li></li>').text('Friday ' + result.HoursOfOpFri).addClass(day == 5 ? 'current' : ''));
+					if (result.HoursOfOpSat) $siteHours.append($('<li></li>').text('Saturday ' + result.HoursOfOpSat).addClass(day == 6 ? 'current' : ''));
+					if (result.HoursOfOpSun) $siteHours.append($('<li></li>').text('Sunday ' + result.HoursOfOpSun).addClass(day == 7 ? 'current' : ''));
+					var currentDay = new Date().toLocaleString('en-us', {  weekday: 'long' });
+
+					$newSite.append($siteHours);
+
 	          		$('#SiteList').append($newSite);
 	      		}
 	      });

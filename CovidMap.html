@@ -17,6 +17,10 @@
     }
     header {
       text-align:center;
+      background-color: black;
+      color: white;
+      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      padding: 20px;
     }
     #map-container {
       height: 400px;
@@ -24,6 +28,10 @@
     #map {
       height: 400px;
       width: 1160px;
+      margin: 0 auto;
+    }
+    .logo {
+      float: left;
     }
     #map_messages_container {
       bottom: 50px !important;
@@ -32,6 +40,10 @@
       top: auto !important;
       color: white;
     }
+    #siteList {
+      width: 1160px;
+      margin: 0 auto;
+    }
   </style>
 </head>
 
@@ -39,8 +51,9 @@
   <header>
     <div class="header">
       <div class="logo-container">
-          <h1 class="logo"><span>Minnesota</span> COVID-19 Test Collection Sites</h1>
+        <img alt="MnCovidLogo" src="mn-covid-19-response-logo.png" class="logo">
       </div>
+      <h1>Test Collection Sites</h1>
     </div>
   </header>
   <main>
@@ -50,7 +63,9 @@
         <div id="map_message"></div>
       </div>
     </div>
-    <div id="sitelist">Site List here</div>
+    <div id="siteList">
+      <div>Site List here</div>
+    </div>
   </main>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>

@@ -5,6 +5,8 @@
   <title>Mn COVID-19 Test Collection Sites</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
+  
+
   <style>
     html,
     body,
@@ -45,62 +47,62 @@
       color: white;
     }
 
-  body {
-    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif
-  }
+body {
+  font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif
+}
 
-  .sitelist-wrapper {
+.sitelist-wrapper {
     max-width: 1120px;
     margin: auto;
     padding: 20px;
-  }
+}
 
-  .site-pager ul {
+.site-pager ul {
     display: inline-block;
-      padding-inline-start: 0px;
-  }
-  .site-pager li {
+    padding-inline-start: 0px;
+}
+.site-pager li {
+  display: inline-block;
+}
+.site-pager > a, .site-pager li a {
     display: inline-block;
-  }
-  .site-pager > a, .site-pager li a {
-      display: inline-block;
-      vertical-align: middle;
-      text-align: center;
-      padding: 8px 15px;
-      line-height: 2em;
-      text-decoration: none;
-  }
-  .site-pager > a:hover, .site-pager li a:hover,
-  .site-pager > a:focus, .site-pager li a:focus {
-      background-color: lightblue;
-  }
-  .site-pager .current {
+    vertical-align: middle;
+    text-align: center;
+    padding: 8px 15px;
+    line-height: 2em;
+    text-decoration: none;
+    margin: 0px 1px;
+}
+.site-pager > a:hover, .site-pager li a:hover {
     background-color: lightblue;
-  }
+}
+.site-pager .current {
+     background-color: lightblue;
+}
 
-  .site-pager .page-count {
+.site-pager .page-count {
     display: inline-block;
     margin-left: 30px;
-  }
+}
 
-  .directory-item {
+.directory-item {
     border: 1px solid #999;
     padding: 15px;
     margin-bottom: 15px;
-  }
+}
 
-  .site-name {
+.site-name {
     font-weight: bold;
     font-size: 1.5rem;
-  }
+}
 
-  .health-system {
+.health-system {
     font-weight: bold;
     margin-bottom: 10px;
-  }
-  .site-hours .current {
+}
+.site-hours .current {
     font-weight: bold;
-  }
+}  
   </style>
 </head>
 

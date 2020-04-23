@@ -1,6 +1,6 @@
 var siteData = [];
 var currentPage = 1;
-var pageSize = 1;
+var pageSize = 10;
 
 $(function () {
   console.log("ready");
@@ -142,49 +142,60 @@ function PopulateResults() {
 
       $siteHours = $('<ul class="site-hours"></ul>');
       var day = new Date().getDay();
-      if (result.HoursOfOpMon)
+      if (result.HoursOfOpMF)
         $siteHours.append(
           $("<li></li>")
-            .text("Monday " + result.HoursOfOpMon)
-            .addClass(day == 1 ? "current" : "")
+            .text("Monday-Friday : " + result.HoursOfOpMF)
+            .addClass(day >= 1 && day <= 5 ? "current" : "")
         );
-      if (result.HoursOfOpTue)
+      if (result.HoursOfOpSatSun)
         $siteHours.append(
           $("<li></li>")
-            .text("Tuesday " + result.HoursOfOpTue)
-            .addClass(day == 2 ? "current" : "")
+            .text("Saturday-Sunday : " + result.HoursOfOpSatSun)
+            .addClass(day > 6 || day < 1 ? "current" : "")
         );
-      if (result.HoursOfOpWed)
-        $siteHours.append(
-          $("<li></li>")
-            .text("Wednesday " + result.HoursOfOpWed)
-            .addClass(day == 3 ? "current" : "")
-        );
-      if (result.HoursOfOpThu)
-        $siteHours.append(
-          $("<li></li>")
-            .text("Thursday " + result.HoursOfOpThu)
-            .addClass(day == 4 ? "current" : "")
-        );
-      if (result.HoursOfOpFri)
-        $siteHours.append(
-          $("<li></li>")
-            .text("Friday " + result.HoursOfOpFri)
-            .addClass(day == 5 ? "current" : "")
-        );
-      if (result.HoursOfOpSat)
-        $siteHours.append(
-          $("<li></li>")
-            .text("Saturday " + result.HoursOfOpSat)
-            .addClass(day == 6 ? "current" : "")
-        );
-      if (result.HoursOfOpSun)
-        $siteHours.append(
-          $("<li></li>")
-            .text("Sunday " + result.HoursOfOpSun)
-            .addClass(day == 7 ? "current" : "")
-        );
-      var currentDay = new Date().toLocaleString("en-us", { weekday: "long" });
+      // if (result.HoursOfOpMon)
+      //   $siteHours.append(
+      //     $("<li></li>")
+      //       .text("Monday " + result.HoursOfOpMon)
+      //       .addClass(day == 1 ? "current" : "")
+      //   );
+      // if (result.HoursOfOpTue)
+      //   $siteHours.append(
+      //     $("<li></li>")
+      //       .text("Tuesday " + result.HoursOfOpTue)
+      //       .addClass(day == 2 ? "current" : "")
+      //   );
+      // if (result.HoursOfOpWed)
+      //   $siteHours.append(
+      //     $("<li></li>")
+      //       .text("Wednesday " + result.HoursOfOpWed)
+      //       .addClass(day == 3 ? "current" : "")
+      //   );
+      // if (result.HoursOfOpThu)
+      //   $siteHours.append(
+      //     $("<li></li>")
+      //       .text("Thursday " + result.HoursOfOpThu)
+      //       .addClass(day == 4 ? "current" : "")
+      //   );
+      // if (result.HoursOfOpFri)
+      //   $siteHours.append(
+      //     $("<li></li>")
+      //       .text("Friday " + result.HoursOfOpFri)
+      //       .addClass(day == 5 ? "current" : "")
+      //   );
+      // if (result.HoursOfOpSat)
+      //   $siteHours.append(
+      //     $("<li></li>")
+      //       .text("Saturday " + result.HoursOfOpSat)
+      //       .addClass(day == 6 ? "current" : "")
+      //   );
+      // if (result.HoursOfOpSun)
+      //   $siteHours.append(
+      //     $("<li></li>")
+      //       .text("Sunday " + result.HoursOfOpSun)
+      //       .addClass(day == 7 ? "current" : "")
+      //   );
 
       $newSite.append($siteHours);
 

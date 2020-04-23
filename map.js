@@ -32,7 +32,9 @@ var esriLeafletMap = (function () {
             "<br/>{ City }, { State } { Zip }" +
             "<br/><strong>Weekdays: </strong> { HoursOfOpMF }" +
             "<br/><strong>Weekends: </strong> { HoursOfOpSatSun }" +
-            "<br/><strong>Contact Info: <a href='tel: { Phone } '</a>{ Phone }</strong>";
+            "<br/><strong>Contact Info: <a href='tel: { Phone }'>{ Phone }</a></strong>" +
+            "<br/>{ DirUtilCol }" +
+            "<br/>See more details below."
       return L.Util.template(template, layer.feature.properties);
     }, { maxWidth: 550 });
   };

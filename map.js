@@ -1,8 +1,13 @@
 var esriLeafletMap = (function () {
   var init = function () {
-    var map = L.map("map").setView([46.5, -94], 6);
+    var map = L.map("map",
+    {
+      center: [46.5, -94],
+      zoom: 6,
+      maxBounds: [[43.3,-98.2],[49.46,-89.25]],
+      maxBoundsViscosity: 1.0
+    });
     L.esri.basemapLayer("Topographic").addTo(map);
-    //L.esri.basemapLayer('Streets').addTo(map);
 
     var siteIcon = L.icon({
       iconUrl: "MNMapPin.svg",

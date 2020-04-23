@@ -5,7 +5,7 @@
   <title>Mn COVID-19 Test Collection Sites</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
-  
+
 
   <style>
     html,
@@ -18,18 +18,18 @@
       width:100%;
     }
     header {
-      text-align:center;
-      background-color: black;
+      text-align:right;
+      background-color: #003865;
       color: white;
-      font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+      font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
       padding: 20px;
     }
     header h1 {
       margin-top: 10px;
     }
     #map-container {
-      height: 400px;
-      max-width: 1160px;
+      height: 500px;
+      max-width: 100%;
       margin: 0 auto;
     }
     #map {
@@ -75,17 +75,18 @@
       line-height: 2em;
       margin: 0px 1px;
       text-decoration: none;
-      border-radius: 8px;
+      background-color: #003865;
+      color: #FFFFFF;
   }
 
   .site-pager > a:hover, .site-pager li a:hover {
-      background-color: lightblue;
-      color: black;
+      background-color: #9BCBEB;
+      color: #003865;
   }
 
   .site-pager .current {
-    background-color: #003865;
-    color: white;
+    background-color: #9BCBEB;
+    color: #003865;
   }
 
   .site-pager .page-count {
@@ -144,6 +145,11 @@
   }
 
   @media screen and (max-width: 767px) {
+
+    #map-container {
+      height: 400px;
+    }
+
     .filter-box {
       width: 100%;
       margin-bottom: 20px;

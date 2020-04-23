@@ -14,7 +14,6 @@ if (!Math.trunc) {
 }
 
 $(function () {
-  console.log("ready");
 
   $.when(
     $.ajax({
@@ -28,13 +27,6 @@ $(function () {
           var searchAddress;
           var searchLoc;
           $.each(r.features, function (idx, result) {
-            console.log("idx=" + idx);
-            console.log("result=" + result);
-            console.log("result.attributes=" + result.attributes);
-            console.log(
-              "result.attributes.CollectSiteName=" +
-                result.attributes.CollectSiteName
-            );
 
             if (result.attributes.CollectSiteName) {
               allSiteData.push(result.attributes);
@@ -80,7 +72,7 @@ $(function () {
 });
 
 function FilterCity(city) {
-	console.log('filter by City : ' + city);
+	//console.log('filter by City : ' + city);
 	siteData = [];
 	$.each(allSiteData, function(idx, result) {
 		if (city == "" || (result.City && result.City.trim() == city)) {
@@ -91,7 +83,7 @@ function FilterCity(city) {
 }
 
 function FilterCounty(county) {
-	console.log('filter by County : ' + county);
+	//console.log('filter by County : ' + county);
 	siteData = [];
 	$.each(allSiteData, function(idx, result) {
 		if (county == "" || (result.County && result.County.trim() == county)) {
@@ -102,12 +94,11 @@ function FilterCounty(county) {
 }
 
 function PopulateFilters() {
-	console.log('filter setup : ' + counties.length + ' ' + cities.length);
+	//console.log('filter setup : ' + counties.length + ' ' + cities.length);
 
 	cities.sort();
 	counties.sort();
 	$.each(cities, function(idx, result) {
-		console.log('appending ' + result);
 		$('.city-filter').append($('<option value="' + result + '">' + result + '</option>'));
 	});
 	$.each(counties, function(idx, result) {
@@ -134,7 +125,7 @@ function PopulatePager() {
 
   $(".site-pager [data-page]").off().on("click", function (e) {
   	e.preventDefault();
-    console.log("page " + $(this).attr("data-page"));
+    //console.log("page " + $(this).attr("data-page"));
     currentPage = parseInt($(this).attr("data-page"));
 
     UpdatePager();

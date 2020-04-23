@@ -6,7 +6,7 @@ var esriLeafletMap = (function () {
 
     var siteIcon = L.icon({
       iconUrl: "MNMapPin.svg",
-      iconSize: [30, 30],
+      iconSize: [25, 25],
       iconAnchor: [15,30]
     });
 

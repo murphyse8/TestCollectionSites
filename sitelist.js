@@ -41,11 +41,11 @@ $(function () {
               siteData.push(result.attributes);
             }
 
-            if (result.attributes.City && !cities.includes(result.attributes.City.trim())) {
+            if (result.attributes.City && cities.indexOf(result.attributes.City.trim()) < 0) {
               cities.push(result.attributes.City.trim());
             }
 
-            if (result.attributes.County && !counties.includes(result.attributes.County.trim())) {
+            if (result.attributes.County && counties.indexOf(result.attributes.County.trim()) < 0) {
               counties.push(result.attributes.County.trim());
             }
           });
@@ -145,8 +145,8 @@ function PopulatePager() {
 function UpdatePager() {
   var lastPage = Math.trunc((siteData.length - 1) / pageSize) + 1;
 
-  $(".site-pager .page").removeClass("current");
-  $(".site-pager .page[data-page=" + currentPage + "]").addClass("current");
+  $(".site-pager .page").removeClass("current").attr("aria-label", "");
+  $(".site-pager .page[data-page=" + currentPage + "]").addClass("current").attr("aria-label", "current page " + currentPage);
   $(".site-pager .pager-prev").attr(
     "data-page",
     (currentPage > 1) ? currentPage - 1 : 1
@@ -199,7 +199,7 @@ function PopulateResults() {
       $newSite = $("<div class='directory-item'></div>");
 
       $newSite.append(
-        $("<div class='site-name'></div>").text(result.CollectSiteName)
+        $("<h3 class='site-name'></h3>").text(result.CollectSiteName)
       );
       $newSite.append(
         $("<div class='health-system'></div>").text(result.HealthSystem)
@@ -236,13 +236,13 @@ function PopulateResults() {
       if (result.HoursOfOpMF)
         $siteHours.append(
           $("<li></li>")
-            .text("Monday-Friday : " + result.HoursOfOpMF)
+            .text("Weekday Hours: " + result.HoursOfOpMF)
             .addClass(day >= 1 && day <= 5 ? "current" : "")
         );
       if (result.HoursOfOpSatSun)
         $siteHours.append(
           $("<li></li>")
-            .text("Saturday-Sunday : " + result.HoursOfOpSatSun)
+            .text("Weekend Hours: " + result.HoursOfOpSatSun)
             .addClass(day > 6 || day < 1 ? "current" : "")
         );
       // if (result.HoursOfOpMon)
@@ -290,7 +290,7 @@ function PopulateResults() {
 
       $newSite.append($siteHours);
 
-      $newSite.append($('<h3>Accepting</h3>'));
+      $newSite.append($('<h4>Accepting</h4>'));
 
       $siteDetails = $('<ul class="site-details"></ul>');
 

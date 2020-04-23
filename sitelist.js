@@ -2,6 +2,12 @@ var siteData = [];
 var currentPage = 1;
 var pageSize = 10;
 
+if (!Math.trunc) {
+	Math.trunc = function (v) {
+		return v < 0 ? Math.ceil(v) : Math.floor(v);
+	};
+}
+
 $(function () {
   console.log("ready");
 
@@ -71,7 +77,8 @@ function PopulatePager() {
 
   UpdatePager();
 
-  $("#SitePager [data-page]").on("click", function () {
+  $("#SitePager [data-page]").on("click", function (e) {
+  	e.preventDefault();
     console.log("page " + $(this).data("page"));
     currentPage = $(this).data("page");
 

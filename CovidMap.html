@@ -24,6 +24,9 @@
       font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
       padding: 20px;
     }
+    header h1 {
+      margin-top: 10px;
+    }
     #map-container {
       height: 400px;
       max-width: 1160px;
@@ -47,63 +50,128 @@
       color: white;
     }
 
-body {
-  font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif
-}
+  body {
+    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif
+  }
 
-.sitelist-wrapper {
+  .sitelist-wrapper {
     max-width: 1120px;
     margin: auto;
-    padding: 20px;
-}
+    padding: 0px 20px 20px;
+  }
 
-.site-pager ul {
+  .site-pager ul {
     display: inline-block;
-    padding: 0px;
-}
-.site-pager li {
-  display: inline-block;
-}
-.site-pager > a, .site-pager li a {
+      padding: 0px;
+  }
+  .site-pager li {
     display: inline-block;
-    vertical-align: middle;
-    text-align: center;
-    padding: 8px 15px;
-    line-height: 2em;
-    text-decoration: none;
-    margin: 0px 1px;
-}
-.site-pager > a:hover, .site-pager li a:hover {
-    background-color: lightblue;
-}
-.site-pager .current {
-     background-color: lightblue;
-}
+  }
+  .site-pager > a, .site-pager li a {
+      display: inline-block;
+      vertical-align: middle;
+      text-align: center;
+      padding: 8px 15px;
+      line-height: 2em;
+      margin: 0px 1px;
+      text-decoration: none;
+      border-radius: 8px;
+  }
 
-.site-pager .page-count {
+  .site-pager > a:hover, .site-pager li a:hover {
+      background-color: lightblue;
+      color: black;
+  }
+
+  .site-pager .current {
+    background-color: #003865;
+    color: white;
+  }
+
+  .site-pager .page-count {
     display: inline-block;
     margin-left: 30px;
-}
+  }
 
-.directory-item {
-    border: 1px solid #999;
+  .site-filters {
+    margin: 0px 0px 10px;
+    overflow: auto;
+  }
+
+  .filter-box {
+    width: 33%;
+    float: left;
+    margin-bottom: 10px;
+  }
+
+    .site-filters label {
+      text-transform: uppercase;
+      display: block;
+    }
+
+  .site-filters select {
+      padding: 10px;
+      border: 1px solid #aaa;
+      font-size: 1rem;
+    }
+
+  .directory-item {
+    border: 1px solid #aaa;
     padding: 15px;
     margin-bottom: 15px;
-}
+  }
 
-.site-name {
+  .directory-item li {
+    margin-bottom: 7px;
+  }
+
+  .site-name {
     font-weight: bold;
     font-size: 1.5rem;
-}
+    margin:0px 0px 3px;
+  }
 
-.health-system {
+  .health-system {
     font-weight: bold;
     margin-bottom: 10px;
-}
-.site-hours .current {
+  }
+
+  .site-phone {
+    margin-top: 7px;
+  }
+  .site-hours .current {
     font-weight: bold;
-}  
-  </style>
+  }
+
+  @media screen and (max-width: 767px) {
+    .filter-box {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+
+    .site-pager > a {
+      display: none;
+    }
+
+    .page-count {
+      width: 100%;
+        padding: 0px;
+        margin: 0px 0px 15px 0px;
+    }
+
+    .logo {
+      float: none;
+      margin-bottom: 5px;
+      max-width: 100%;
+    }
+
+    .header h1 {
+      margin-bottom: 0;
+      font-size: 1.6em;
+    }
+
+  }
+</style>
 </head>
 
 <body>
@@ -123,7 +191,45 @@ body {
       </div>
     </div>
     <div class="sitelist-wrapper">
-      <div id="SitePager" class="site-pager">
+      <div class="site-filters">
+        <h2>Filters:</h2>
+        <div class="filter-box">
+          <label for="CityFilter">Filter by City</label>
+          <select id="CityFilter" class="city-filter">
+              <option value="">Show All Cities</option>
+          </select>
+        </div>
+        <div class="filter-box">
+          <label for="CountyFilter">Filter by County</label>
+          <select id="CountyFilter" class="county-filter">
+              <option value="">Show All Counties</option>
+          </select>
+        </div>
+      </div>
+      <nav id="SitePager" class="site-pager" aria-label="site list">
+        <a href="#" aria-label="Go to the first page" title="Go to the first page" class="pager-first" data-page="1" >&lt;&lt;</a>
+        <a href="#" aria-label="Go to the previous page" title="Go to the previous page" class="pager-prev" data-page="1" >&lt;</a>
+        <ul>
+          <li><a href="#" class="page current" data-page="1">1</a></li>
+          <li><a href="#" class="page" data-page="2">2</a></li>
+          <li><a href="#" class="page" data-page="3">3</a></li>
+          <li><a href="#" class="page" data-page="4">4</a></li>
+        </ul>
+        <a href="#" aria-label="Go to the next page" title="Go to the next page" class="pager-next" data-page="1" >&gt;</a>
+        <a href="#" aria-label="Go to the last page" title="Go to the last page" class="pager-last" data-page="1" >&gt;&gt;</span></a>
+        <div class="page-count" aria-live="polite">
+
+        </div>
+      </nav>
+      <div id="SiteList" class="site-list" aria-label="site list results" aria-live="polite">
+        <div class="directory-item">
+        </div>
+        <div class="directory-item">
+        </div>
+        <div class="directory-item">
+        </div>
+      </div>
+      <nav id="SitePagerBottom" class="site-pager" aria-label="site list">
         <a href="#" aria-label="Go to the first page" title="Go to the first page" class="pager-first" data-page="1" >&lt;&lt;</a>
         <a href="#" aria-label="Go to the previous page" title="Go to the previous page" class="pager-prev" data-page="1" >&lt;</a>
         <ul>
@@ -137,15 +243,8 @@ body {
         <div class="page-count">
 
         </div>
-      </div>
-      <div id="SiteList" class="site-list">
-        <div class="directory-item">
-        </div>
-        <div class="directory-item">
-        </div>
-        <div class="directory-item">
-        </div>
-      </div>
+      </nav>
+
 
     </div>
   </main>

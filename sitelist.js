@@ -1,4 +1,9 @@
+var allSiteData = [];
 var siteData = [];
+
+var cities = [];
+var counties = [];
+
 var currentPage = 1;
 var pageSize = 10;
 
@@ -32,55 +37,105 @@ $(function () {
             );
 
             if (result.attributes.CollectSiteName) {
+              allSiteData.push(result.attributes);
               siteData.push(result.attributes);
             }
+
+            if (result.attributes.City && !cities.includes(result.attributes.City.trim())) {
+              cities.push(result.attributes.City.trim());
+            }
+
+            if (result.attributes.County && !counties.includes(result.attributes.County.trim())) {
+              counties.push(result.attributes.County.trim());
+            }
           });
 
-          siteData.sort(function (a, b) {
-            var x = a.CollectSiteName.toLowerCase();
-            var y = b.CollectSiteName.toLowerCase();
-            if (x < y) {
-              return -1;
-            }
-            if (x > y) {
-              return 1;
-            }
-            return 0;
-          });
-
+          PopulateFilters();
           PopulatePager();
           PopulateResults();
+
         } else $("#SiteList").html("no sites found");
-        //$("#SitePager").hide();
+        //$(".site-pager").hide();
       })
       .fail(function () {
         console.warn("Call to site list failed");
         $("#SiteList").html("no sites available");
       })
   );
+
+  $('.city-filter').on('change', function () {
+  	  FilterCity($(this).val());
+  	  $('.county-filter').val('');
+  	  PopulatePager();
+  	  PopulateResults();
+  });
+
+  $('.county-filter').on('change', function () {
+  	  FilterCounty($(this).val());
+  	  $('.city-filter').val('');
+  	  PopulatePager();
+  	  PopulateResults();
+  });
+
 });
+
+function FilterCity(city) {
+	console.log('filter by City : ' + city);
+	siteData = [];
+	$.each(allSiteData, function(idx, result) {
+		if (city == "" || (result.City && result.City.trim() == city)) {
+			siteData.push(result);
+		}
+	});
+	currentPage = 1;
+}
+
+function FilterCounty(county) {
+	console.log('filter by County : ' + county);
+	siteData = [];
+	$.each(allSiteData, function(idx, result) {
+		if (county == "" || (result.County && result.County.trim() == county)) {
+			siteData.push(result);
+		}
+	});
+	currentPage = 1;
+}
+
+function PopulateFilters() {
+	console.log('filter setup : ' + counties.length + ' ' + cities.length);
+
+	cities.sort();
+	counties.sort();
+	$.each(cities, function(idx, result) {
+		console.log('appending ' + result);
+		$('.city-filter').append($('<option value="' + result + '">' + result + '</option>'));
+	});
+	$.each(counties, function(idx, result) {
+		$('.county-filter').append($('<option value="' + result + '">' + result + '</option>'));
+	});
+}
 
 function PopulatePager() {
   var lastPage = Math.trunc((siteData.length - 1) / pageSize) + 1;
   if (lastPage < 2) {
-    $("#SitePager").hide();
+    $(".site-pager").hide();
   } else {
-    $("#SitePager").show();
+    $(".site-pager").show();
   }
-  $("#SitePager li").remove();
+  $(".site-pager li").remove();
   for (i = 1; i <= lastPage; i++) {
     $newPage = $(
       '<li><a href="#" class="page" data-page="' + i + '">' + i + "</a></li>"
     );
-    $("#SitePager ul").append($newPage);
+    $(".site-pager ul").append($newPage);
   }
 
   UpdatePager();
 
-  $("#SitePager [data-page]").on("click", function (e) {
+  $(".site-pager [data-page]").off().on("click", function (e) {
   	e.preventDefault();
-    console.log("page " + $(this).data("page"));
-    currentPage = $(this).data("page");
+    console.log("page " + $(this).attr("data-page"));
+    currentPage = parseInt($(this).attr("data-page"));
 
     UpdatePager();
     PopulateResults();
@@ -90,17 +145,20 @@ function PopulatePager() {
 function UpdatePager() {
   var lastPage = Math.trunc((siteData.length - 1) / pageSize) + 1;
 
-  $("#SitePager .page").removeClass("current");
-  $("#SitePager .page[data-page=" + currentPage + "]").addClass("current");
-  $("#SitePager .pager-prev").data(
-    "page",
-    currentPage > 1 ? currentPage - 1 : 1
+  $(".site-pager .page").removeClass("current");
+  $(".site-pager .page[data-page=" + currentPage + "]").addClass("current");
+  $(".site-pager .pager-prev").attr(
+    "data-page",
+    (currentPage > 1) ? currentPage - 1 : 1
   );
-  $("#SitePager .pager-next").data(
-    "page",
-    currentPage < lastPage ? currentPage + 1 : lastPage
+  $(".site-pager .pager-next").attr(
+    "data-page",
+    (currentPage < lastPage) ? currentPage + 1 : lastPage
   );
-  $("#SitePager .pager-last").data("page", lastPage);
+  $(".site-pager .pager-last").attr(
+  	"data-page", 
+  	lastPage
+  );
 
   var resultsShowTotal =
     currentPage == lastPage
@@ -114,10 +172,22 @@ function UpdatePager() {
     (resultsShowFirst + resultsShowTotal - 1) +
     " of " +
     siteData.length;
-  $("#SitePager .page-count").html(resultsDisplay);
+  $(".site-pager .page-count").html(resultsDisplay);
 }
 
 function PopulateResults() {
+  siteData.sort(function (a, b) {
+    var x = a.CollectSiteName.toLowerCase();
+    var y = b.CollectSiteName.toLowerCase();
+    if (x < y) {
+      return -1;
+    }
+    if (x > y) {
+      return 1;
+    }
+    return 0;
+  });
+
   currentCount = 0;
   $("#SiteList > div").remove();
   $.each(siteData, function (idx, result) {
@@ -146,9 +216,23 @@ function PopulateResults() {
             (result.Zip ? result.Zip : "")
         )
       );
+      if (result.Phone) {
+      	$newSite.append(
+          $("<div class='site-phone'></div>").append(
+          	$('<a href="tel:' + result.Phone + '">' + result.Phone + '</a>')
+ 		  )
+        );
+      }
 
       $siteHours = $('<ul class="site-hours"></ul>');
       var day = new Date().getDay();
+      if (result.DirUtilCol) {
+      	$siteHours.append(
+          $("<li></li>")
+            .text(result.DirUtilCol)
+            .addClass('directions')
+        );
+      }
       if (result.HoursOfOpMF)
         $siteHours.append(
           $("<li></li>")
@@ -205,6 +289,92 @@ function PopulateResults() {
       //   );
 
       $newSite.append($siteHours);
+
+      $newSite.append($('<h3>Accepting</h3>'));
+
+      $siteDetails = $('<ul class="site-details"></ul>');
+
+      if (result.AcptASymWContact && result.AcptASymWContact.toUpperCase() != "NO")
+        $siteDetails.append(
+          $("<li></li>")
+            .text("Accepting asymptomatic patients who may be contacts of infected patients" +
+            	((result.AcptASymWContact.toUpperCase() != "YES") ? " (" + result.AcptASymWContact + ")" : ""))
+        );
+
+      if (result.AcptAnySymPat && result.AcptAnySymPat.toUpperCase() != "NO") {
+        $siteDetails.append(
+          $("<li></li>")
+            .text("Accepting any symptomatic patient")
+        );      	
+      } else {
+	      if (result.AcptSymPatO65 && result.AcptSymPatO65.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting symptomatic patients over age 65")
+	        );
+
+	      if (result.AcptSymPatCC && result.AcptSymPatO65.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting symptomatic patients living in or recently in congregate care")
+	        );
+
+	      if (result.AcptSymPatHom && result.AcptSymPatHom.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting symptomatic patients who are experiencing homelessness")
+	        );
+
+	      if (result.AcptSymPatDial && result.AcptSymPatDial.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting symptomatic dialysis patients")
+	        );
+
+	      if (result.AcptSymPatFam && result.AcptSymPatFam.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting symptomatic health care workers and/or their symptomatic family")
+	        );
+
+	      if (result.AcptSymPatMedC && result.AcptSymPatMedC.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting all symptomatic patients with underlying medical conditions")
+	        );
+
+	      if (result.AcptSymFirstResp && result.AcptSymFirstResp.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting symptomatic first responders")
+	        );
+
+	      if (result.AcptSymChildCar && result.AcptSymChildCar.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting symptomatic child care workers")
+	        );
+
+	      if (result.AcptSymTransPor && result.AcptSymTransPor.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting symptomatic transportation workers")
+	        );
+
+	      if (result.AcptSymFood && result.AcptSymFood.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting symptomatic grocery/food production workers")
+	        );
+
+	      if (result.AcptSymUtil && result.AcptSymUtil.toUpperCase() != "NO")
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .text("Accepting symptomatic utility workers")
+	        );      	
+	  }
+      $newSite.append($siteDetails);
+
 
       $("#SiteList").append($newSite);
     }

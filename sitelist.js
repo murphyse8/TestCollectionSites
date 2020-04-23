@@ -73,6 +73,28 @@ $(function () {
 
 });
 
+function FilterSite(nameId) {
+	nameId = nameId.split(" ").join("_");
+	FilterCity('');
+	PopulatePager();
+	PopulateResults();
+	let siteCount = 0;
+	$.each(siteData, function (idx, result) {
+		siteCount++;
+		if (siteCount > pageSize) {
+			currentPage++;
+			siteCount = 1;
+		}
+		if (result.CollectSiteName.split(" ").join("_") == nameId) {
+			UpdatePager();
+			PopulateResults();
+			//console.log('page ' + currentPage);
+			$('.directory-item[id="site-' + nameId + '"]').focus();
+			return false;
+		}
+	});
+}
+
 function FilterCity(city) {
 	//console.log('filter by City : ' + city);
 	siteData = [];
@@ -190,7 +212,7 @@ function PopulateResults() {
       currentCount > (currentPage - 1) * pageSize &&
       currentCount < currentPage * pageSize + 1
     ) {
-      $newSite = $("<div class='directory-item'></div>").attr("tabindex", "0");
+      $newSite = $("<div class='directory-item'></div>").attr("tabindex", "0").attr("id", "site-" + result.CollectSiteName.split(" ").join("_"));
 
       $newSite.append(
         $("<h3 class='site-name'></h3>").text(result.CollectSiteName)

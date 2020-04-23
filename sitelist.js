@@ -60,6 +60,7 @@ $(function () {
   	  $('.county-filter').val('');
   	  PopulatePager();
   	  PopulateResults();
+      $('.directory-item').first().focus();
   });
 
   $('.county-filter').on('change', function () {
@@ -67,6 +68,7 @@ $(function () {
   	  $('.city-filter').val('');
   	  PopulatePager();
   	  PopulateResults();
+      $('.directory-item').first().focus();
   });
 
 });
@@ -130,6 +132,7 @@ function PopulatePager() {
 
     UpdatePager();
     PopulateResults();
+    $('.directory-item').first().focus();
   });
 }
 
@@ -187,7 +190,7 @@ function PopulateResults() {
       currentCount > (currentPage - 1) * pageSize &&
       currentCount < currentPage * pageSize + 1
     ) {
-      $newSite = $("<div class='directory-item'></div>");
+      $newSite = $("<div class='directory-item'></div>").attr("tabindex", "0");
 
       $newSite.append(
         $("<h3 class='site-name'></h3>").text(result.CollectSiteName)
@@ -370,4 +373,5 @@ function PopulateResults() {
       $("#SiteList").append($newSite);
     }
   });
+
 }

@@ -6,8 +6,8 @@ var esriLeafletMap = (function () {
 
     var siteIcon = L.icon({
       iconUrl: "MNMapPin.svg",
-      iconSize: [30, 30],
-      iconAnchor: [15,30]
+      iconSize: [25, 25],
+      iconAnchor: [10,25]
     });
 
     map.createPane("sites");
@@ -30,13 +30,8 @@ var esriLeafletMap = (function () {
             "<br/><strong> { CollectSiteName }</strong> " +
             "<br/>{ CollectAddress1 } { CollectAddress2 }" +
             "<br/>{ City }, { State } { Zip }" +
-            "<br/><strong>Sun</strong> { HoursOfOpSatSun }" +
-            "<br/><strong>Mon</strong> { HoursOfOpMF }" +
-            "<br/><strong>Tue</strong> { HoursOfOpMF }" +
-            "<br/><strong>Wed</strong> { HoursOfOpMF }" +
-            "<br/><strong>Thu</strong> { HoursOfOpMF }" +
-            "<br/><strong>Fri</strong> { HoursOfOpMF }" +
-            "<br/><strong>Sat</strong> { HoursOfOpSatSun }" +
+            "<br/><strong>Weekdays: </strong> { HoursOfOpMF }" +
+            "<br/><strong>Weekends: </strong> { HoursOfOpSatSun }" +
             "<br/><strong>Contact Info: { Phone }</strong>";
       return L.Util.template(template, layer.feature.properties);
     }, { maxWidth: 550 });

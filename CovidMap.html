@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Mn COVID-19 Test Collection Sites</title>
   <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
   <style>
     html,
     body,
@@ -32,6 +32,9 @@
     }
     .logo {
       float: left;
+    }
+    .leaflet-popup-content {
+      font-size: 1.3em;
     }
     #map_messages_container {
       bottom: 50px !important;
@@ -144,8 +147,8 @@
     </div>
   </main>
   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script src="https://unpkg.com/esri-leaflet/dist/esri-leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/esri-leaflet@2.3.3/dist/esri-leaflet.js"></script>
   <script src="map.js"></script>
   <script src="sitelist.js"></script>
 </body>

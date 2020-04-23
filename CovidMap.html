@@ -17,6 +17,29 @@
       height:100%;
       width:100%;
     }
+    .skip a {
+        position: absolute;
+        left: -10000px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        color: #000000;
+    }
+
+    .skip a:focus { 
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        background: #e00000;
+        outline: 0;
+        z-index: 10999;
+        height: auto;
+        width: auto;
+        padding: 7px;
+        margin: 3px;
+        color: #ffffff;
+    }
     header {
       text-align:right;
       background-color: #003865;
@@ -77,6 +100,7 @@
       text-decoration: none;
       background-color: #003865;
       color: #FFFFFF;
+      font-weight: bold;
   }
 
   .site-pager > a:hover, .site-pager li a:hover {
@@ -95,7 +119,7 @@
   }
 
   .site-filters {
-    margin: 0px 0px 10px;
+    margin: 20px 0px 10px;
     overflow: auto;
   }
 
@@ -190,12 +214,14 @@
     </div>
   </header>
   <main>
+    <div class="skip"><a class="is-hidden" href="#main-content">skip to content</a></div>
     <div id="map-container">
       <div id="map"></div>
       <div id="map_messages_container">
         <div id="map_message"></div>
       </div>
     </div>
+    <a name="main-content"></a>
     <div class="sitelist-wrapper">
       <div class="site-filters">
         <div class="filter-box">

@@ -6,6 +6,7 @@ var counties = [];
 
 var currentPage = 1;
 var pageSize = 10;
+var maxPages = 12;
 
 if (!Math.trunc) {
 	Math.trunc = function (v) {
@@ -14,6 +15,7 @@ if (!Math.trunc) {
 }
 
 $(function () {
+  console.log("ready");
 
   $.when(
     $.ajax({
@@ -27,6 +29,13 @@ $(function () {
           var searchAddress;
           var searchLoc;
           $.each(r.features, function (idx, result) {
+            console.log("idx=" + idx);
+            console.log("result=" + result);
+            console.log("result.attributes=" + result.attributes);
+            console.log(
+              "result.attributes.CollectSiteName=" +
+                result.attributes.CollectSiteName
+            );
 
             if (result.attributes.CollectSiteName) {
               allSiteData.push(result.attributes);
@@ -41,6 +50,10 @@ $(function () {
               counties.push(result.attributes.County.trim());
             }
           });
+
+          var groupsOfFive = Math.trunc((allSiteData.length - 1) / 5) + 1;
+          var howManyGroups = Math.trunc((groupsOfFive -1) / maxPages) + 1;
+          pageSize = howManyGroups * 5;
 
           PopulateFilters();
           PopulatePager();
@@ -60,7 +73,8 @@ $(function () {
   	  $('.county-filter').val('');
   	  PopulatePager();
   	  PopulateResults();
-      $('.directory-item').first().focus();
+  	  $('.directory-item').first().focus();
+
   });
 
   $('.county-filter').on('change', function () {
@@ -68,7 +82,8 @@ $(function () {
   	  $('.city-filter').val('');
   	  PopulatePager();
   	  PopulateResults();
-      $('.directory-item').first().focus();
+	  $('.directory-item').first().focus();
+
   });
 
 });
@@ -96,7 +111,7 @@ function FilterSite(nameId) {
 }
 
 function FilterCity(city) {
-	//console.log('filter by City : ' + city);
+	console.log('filter by City : ' + city);
 	siteData = [];
 	$.each(allSiteData, function(idx, result) {
 		if (city == "" || (result.City && result.City.trim() == city)) {
@@ -107,7 +122,7 @@ function FilterCity(city) {
 }
 
 function FilterCounty(county) {
-	//console.log('filter by County : ' + county);
+	console.log('filter by County : ' + county);
 	siteData = [];
 	$.each(allSiteData, function(idx, result) {
 		if (county == "" || (result.County && result.County.trim() == county)) {
@@ -118,11 +133,12 @@ function FilterCounty(county) {
 }
 
 function PopulateFilters() {
-	//console.log('filter setup : ' + counties.length + ' ' + cities.length);
+	console.log('filter setup : ' + counties.length + ' ' + cities.length);
 
 	cities.sort();
 	counties.sort();
 	$.each(cities, function(idx, result) {
+		console.log('appending ' + result);
 		$('.city-filter').append($('<option value="' + result + '">' + result + '</option>'));
 	});
 	$.each(counties, function(idx, result) {
@@ -149,12 +165,13 @@ function PopulatePager() {
 
   $(".site-pager [data-page]").off().on("click", function (e) {
   	e.preventDefault();
-    //console.log("page " + $(this).attr("data-page"));
+    console.log("page " + $(this).attr("data-page"));
     currentPage = parseInt($(this).attr("data-page"));
 
     UpdatePager();
     PopulateResults();
     $('.directory-item').first().focus();
+
   });
 }
 
@@ -252,13 +269,13 @@ function PopulateResults() {
       if (result.HoursOfOpMF)
         $siteHours.append(
           $("<li></li>")
-            .text("Weekday Hours: " + result.HoursOfOpMF)
+            .text("Weekday Hours : " + result.HoursOfOpMF)
             .addClass(day >= 1 && day <= 5 ? "current" : "")
         );
       if (result.HoursOfOpSatSun)
         $siteHours.append(
           $("<li></li>")
-            .text("Weekend Hours: " + result.HoursOfOpSatSun)
+            .text("Weekend Hours : " + result.HoursOfOpSatSun)
             .addClass(day > 6 || day < 1 ? "current" : "")
         );
       // if (result.HoursOfOpMon)
@@ -316,6 +333,8 @@ function PopulateResults() {
             .text("Accepting asymptomatic patients who may be contacts of infected patients" +
             	((result.AcptASymWContact.toUpperCase() != "YES") ? " (" + result.AcptASymWContact + ")" : ""))
         );
+
+      var acceptingAny = false;
 
       if (result.AcptAnySymPat && result.AcptAnySymPat.toUpperCase() != "NO") {
       	acceptingAny = true;
@@ -397,5 +416,6 @@ function PopulateResults() {
       $("#SiteList").append($newSite);
     }
   });
+  
 
 }

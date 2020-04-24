@@ -4,7 +4,7 @@ var esriLeafletMap = (function () {
     {
       center: [46.5, -94],
       zoom: 6,
-      maxBounds: [[43.3,-98.2],[49.46,-89.25]],
+      maxBounds: [[41,-100],[51,-87]],
       maxBoundsViscosity: 1.0
     });
     L.esri.basemapLayer("Topographic").addTo(map);

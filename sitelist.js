@@ -318,9 +318,11 @@ function PopulateResults() {
         );
 
       if (result.AcptAnySymPat && result.AcptAnySymPat.toUpperCase() != "NO") {
+      	acceptingAny = true;
         $siteDetails.append(
           $("<li></li>")
-            .text("Accepting any symptomatic patient")
+            .text("Accepting any symptomatic patient" +
+            	((result.AcptAnySymPat.toUpperCase() != "YES") ? " (" + result.AcptAnySymPat + ")" : ""))
         );      	
       } else {
 	      if (result.AcptSymPatO65 && result.AcptSymPatO65.toUpperCase() != "NO")

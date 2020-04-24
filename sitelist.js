@@ -15,7 +15,6 @@ if (!Math.trunc) {
 }
 
 $(function () {
-  console.log("ready");
 
   $.when(
     $.ajax({
@@ -29,13 +28,6 @@ $(function () {
           var searchAddress;
           var searchLoc;
           $.each(r.features, function (idx, result) {
-            console.log("idx=" + idx);
-            console.log("result=" + result);
-            console.log("result.attributes=" + result.attributes);
-            console.log(
-              "result.attributes.CollectSiteName=" +
-                result.attributes.CollectSiteName
-            );
 
             if (result.attributes.CollectSiteName) {
               allSiteData.push(result.attributes);
@@ -111,7 +103,7 @@ function FilterSite(nameId) {
 }
 
 function FilterCity(city) {
-	console.log('filter by City : ' + city);
+	// console.log('filter by City : ' + city);
 	siteData = [];
 	$.each(allSiteData, function(idx, result) {
 		if (city == "" || (result.City && result.City.trim() == city)) {
@@ -122,7 +114,7 @@ function FilterCity(city) {
 }
 
 function FilterCounty(county) {
-	console.log('filter by County : ' + county);
+	// console.log('filter by County : ' + county);
 	siteData = [];
 	$.each(allSiteData, function(idx, result) {
 		if (county == "" || (result.County && result.County.trim() == county)) {
@@ -133,12 +125,11 @@ function FilterCounty(county) {
 }
 
 function PopulateFilters() {
-	console.log('filter setup : ' + counties.length + ' ' + cities.length);
+	// console.log('filter setup : ' + counties.length + ' ' + cities.length);
 
 	cities.sort();
 	counties.sort();
 	$.each(cities, function(idx, result) {
-		console.log('appending ' + result);
 		$('.city-filter').append($('<option value="' + result + '">' + result + '</option>'));
 	});
 	$.each(counties, function(idx, result) {
@@ -165,7 +156,7 @@ function PopulatePager() {
 
   $(".site-pager [data-page]").off().on("click", function (e) {
   	e.preventDefault();
-    console.log("page " + $(this).attr("data-page"));
+    // console.log("page " + $(this).attr("data-page"));
     currentPage = parseInt($(this).attr("data-page"));
 
     UpdatePager();
@@ -343,73 +334,20 @@ function PopulateResults() {
             .text("Accepting any symptomatic patient" +
             	((result.AcptAnySymPat.toUpperCase() != "YES") ? " (" + result.AcptAnySymPat + ")" : ""))
         );      	
-      } else {
-	      if (result.AcptSymPatO65 && result.AcptSymPatO65.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting symptomatic patients over age 65")
-	        );
+      } 
 
-	      if (result.AcptSymPatCC && result.AcptSymPatO65.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting symptomatic patients living in or recently in congregate care")
-	        );
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymPatO65, "Accepting symptomatic patients over age 65");
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymPatCC, "Accepting symptomatic patients living in or recently in congregate care");
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymPatHom, "Accepting symptomatic patients who are experiencing homelessness");
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymPatDial, "Accepting symptomatic dialysis patients");
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymPatFam, "Accepting symptomatic health care workers and/or their symptomatic family");
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymPatMedC, "Accepting all symptomatic patients with underlying medical conditions");
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymFirstResp, "Accepting symptomatic first responders");
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymChildCar, "Accepting symptomatic child care workers");
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymTransPor, "Accepting symptomatic transportation workers");
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymFood, "Accepting symptomatic grocery/food production workers");
+      AddSiteDetails($siteDetails, acceptingAny, result.AcptSymUtil, "Accepting symptomatic utility workers");
 
-	      if (result.AcptSymPatHom && result.AcptSymPatHom.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting symptomatic patients who are experiencing homelessness")
-	        );
-
-	      if (result.AcptSymPatDial && result.AcptSymPatDial.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting symptomatic dialysis patients")
-	        );
-
-	      if (result.AcptSymPatFam && result.AcptSymPatFam.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting symptomatic health care workers and/or their symptomatic family")
-	        );
-
-	      if (result.AcptSymPatMedC && result.AcptSymPatMedC.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting all symptomatic patients with underlying medical conditions")
-	        );
-
-	      if (result.AcptSymFirstResp && result.AcptSymFirstResp.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting symptomatic first responders")
-	        );
-
-	      if (result.AcptSymChildCar && result.AcptSymChildCar.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting symptomatic child care workers")
-	        );
-
-	      if (result.AcptSymTransPor && result.AcptSymTransPor.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting symptomatic transportation workers")
-	        );
-
-	      if (result.AcptSymFood && result.AcptSymFood.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting symptomatic grocery/food production workers")
-	        );
-
-	      if (result.AcptSymUtil && result.AcptSymUtil.toUpperCase() != "NO")
-	        $siteDetails.append(
-	          $("<li></li>")
-	            .text("Accepting symptomatic utility workers")
-	        );      	
-	  }
       $newSite.append($siteDetails);
 
 
@@ -417,5 +355,13 @@ function PopulateResults() {
     }
   });
   
+  function AddSiteDetails($siteDetails, acceptingAny, details, text) {
+	if (details && details.toUpperCase() != "NO" && (!acceptingAny || (details.toUpperCase() != "YES")))
+	    $siteDetails.append(
+	      $("<li></li>")
+	        .text(text +
+	    	((details.toUpperCase() != "YES") ? " (" + details + ")" : ""))
+	    );      	  	
+  }
 
 }

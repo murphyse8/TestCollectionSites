@@ -43,7 +43,7 @@ var esriLeafletMap = (function () {
             "<br/>{ DirUtilCol }" +
             "<br/><button onclick='FilterSite(\"{ CollectSiteName }\")'>See more details below.</button>"
       return L.Util.template(template, layer.feature.properties);
-    }, { maxWidth: 550 });
+    }, { maxWidth: 300 });
   };
   return {
     init: init,

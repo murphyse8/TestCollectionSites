@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"/>
 
 
+  <!-- header/testing site CSS, not needed in production //-->
   <style>
     html,
     body,
@@ -17,6 +18,53 @@
       height:100%;
       width:100%;
     }
+    header {
+      text-align:right;
+      background-color: #003865;
+      color: white;
+      font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
+      padding: 20px;
+    }
+    header h1 {
+      margin-top: 10px;
+    }
+    .logo {
+      float: none;
+      margin-bottom: 5px;
+      max-width: 100%;
+    }
+
+    .header h1 {
+      margin-bottom: 0;
+      font-size: 1.6em;
+    }
+    .site-name {
+      font-weight: bold;
+      font-size: 1.5rem;
+      margin:0px 0px 3px;
+    }
+    
+    @media screen and (max-width: 767px) {
+      
+      .logo {
+        float: none;
+        margin-bottom: 5px;
+        max-width: 100%;
+      }
+
+      .header h1 {
+        margin-bottom: 0;
+        font-size: 1.6em;
+      }
+      .site-name {
+        font-size: 1.3rem;
+      }
+      
+    }
+  </style>
+  
+  
+  <style>
     .skip a {
         position: absolute;
         left: -10000px;
@@ -39,16 +87,6 @@
         padding: 7px;
         margin: 3px;
         color: #ffffff;
-    }
-    header {
-      text-align:right;
-      background-color: #003865;
-      color: white;
-      font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif;
-      padding: 20px;
-    }
-    header h1 {
-      margin-top: 10px;
     }
     #map-container {
       height: 500px;
@@ -73,9 +111,6 @@
       color: white;
     }
 
-  body {
-    font-family: "Open Sans","Helvetica Neue",Helvetica,Arial,sans-serif
-  }
 
   .sitelist-wrapper {
     max-width: 1120px;
@@ -150,11 +185,6 @@
     margin-bottom: 7px;
   }
 
-  .site-name {
-    font-weight: bold;
-    font-size: 1.5rem;
-    margin:0px 0px 3px;
-  }
 
   .health-system {
     font-weight: bold;
@@ -199,16 +229,6 @@
         margin: 0px 0px 15px 0px;
     }
 
-    .logo {
-      float: none;
-      margin-bottom: 5px;
-      max-width: 100%;
-    }
-
-    .header h1 {
-      margin-bottom: 0;
-      font-size: 1.6em;
-    }
 
   .directory-item {
     font-size: 13px;
@@ -218,9 +238,6 @@
     margin-bottom: 4px;
   }
 
-  .site-name {
-    font-size: 1.3rem;
-  }
 
   .health-system {
   }

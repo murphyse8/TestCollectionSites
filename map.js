@@ -41,7 +41,7 @@ var esriLeafletMap = (function () {
             "<br/><strong>Weekends: </strong> { HoursOfOpSatSun }" +
             "<br/><strong>Contact Info: <a href='tel: { Phone }'>{ Phone }</a></strong>" +
             "<br/>{ DirUtilCol }" +
-            "<br/>See more details below."
+            "<br/><button onclick='FilterSite(\"{ CollectSiteName }\")'>See more details below.</button>"
       return L.Util.template(template, layer.feature.properties);
     }, { maxWidth: 550 });
   };

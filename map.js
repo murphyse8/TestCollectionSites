@@ -5,6 +5,7 @@ var esriLeafletMap = (function () {
       center: [46.5, -94],
       zoom: 6,
       minZoom: 4,
+      scrollWheelZoom: false,
       maxBounds: [[35,-105],[60,-80]],
       maxBoundsViscosity: 1.0
     });
@@ -44,6 +45,9 @@ var esriLeafletMap = (function () {
             "<br/><button onclick='FilterSite(\"{ CollectSiteName }\")'>See more details below.</button>"
       return L.Util.template(template, layer.feature.properties);
     }, { maxWidth: 300 });
+    // testingSites.on('click', function (e) {
+    //   map.setView([e.latlng.lat + 0.015, e.latlng.lng], 13); //map.setZoom(15)
+    // });
   };
   return {
     init: init,

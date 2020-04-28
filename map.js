@@ -34,17 +34,24 @@ var esriLeafletMap = (function () {
     map.addLayer(testingSites);
     testingSites.bindPopup(function (layer) {
       var l = layer.feature.properties;
+      if (l.HealthSystem === 'Sanford Health') {
+        l.CollectAddress1 = "";
+        l.CollectAddress2 = "";
+      }
       var template =
-            "{ HealthSystem }" +
-            "<br/><strong> { CollectSiteName }</strong> " +
-            "<br/>{ CollectAddress1 } { CollectAddress2 }" +
+            "{ HealthSystem }" + 
+            "<br/><strong> { CollectSiteName }</strong> ";
+      if (l.CollectAddress1.length > 0 || l.CollectAddress2.length > 0) {
+        template += "<br/>{ CollectAddress1 } { CollectAddress2 }";
+      }
+      template +=
             "<br/>{ City }, { State } { Zip }" +
             "<br/><strong>Weekdays: </strong> { HoursOfOpMF }" +
             "<br/><strong>Weekends: </strong> { HoursOfOpSatSun }" +
             "<br/><strong>Contact Info: <a href='tel: { Phone }'>{ Phone }</a></strong>" +
             "<br/>{ DirUtilCol }" +
             "<br/><button onclick='FilterSite(\"{ CollectSiteName }\")'>See more details below.</button>"
-      return L.Util.template(template, layer.feature.properties);
+      return L.Util.template(template, l);
     }, { maxWidth: 300 });
     // testingSites.on('click', function (e) {
     //   map.setView([e.latlng.lat + 0.015, e.latlng.lng], 13); //map.setZoom(15)

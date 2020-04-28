@@ -8,6 +8,8 @@ var currentPage = 1;
 var pageSize = 10;
 var maxPages = 12;
 
+var acceptingAsymptomatic = false;
+
 if (!Math.trunc) {
 	Math.trunc = function (v) {
 		return v < 0 ? Math.ceil(v) : Math.floor(v);
@@ -269,48 +271,6 @@ function PopulateResults() {
             .text("Weekend Hours : " + result.HoursOfOpSatSun)
             .addClass(day > 5 || day < 1 ? "current" : "")
         );
-      // if (result.HoursOfOpMon)
-      //   $siteHours.append(
-      //     $("<li></li>")
-      //       .text("Monday " + result.HoursOfOpMon)
-      //       .addClass(day == 1 ? "current" : "")
-      //   );
-      // if (result.HoursOfOpTue)
-      //   $siteHours.append(
-      //     $("<li></li>")
-      //       .text("Tuesday " + result.HoursOfOpTue)
-      //       .addClass(day == 2 ? "current" : "")
-      //   );
-      // if (result.HoursOfOpWed)
-      //   $siteHours.append(
-      //     $("<li></li>")
-      //       .text("Wednesday " + result.HoursOfOpWed)
-      //       .addClass(day == 3 ? "current" : "")
-      //   );
-      // if (result.HoursOfOpThu)
-      //   $siteHours.append(
-      //     $("<li></li>")
-      //       .text("Thursday " + result.HoursOfOpThu)
-      //       .addClass(day == 4 ? "current" : "")
-      //   );
-      // if (result.HoursOfOpFri)
-      //   $siteHours.append(
-      //     $("<li></li>")
-      //       .text("Friday " + result.HoursOfOpFri)
-      //       .addClass(day == 5 ? "current" : "")
-      //   );
-      // if (result.HoursOfOpSat)
-      //   $siteHours.append(
-      //     $("<li></li>")
-      //       .text("Saturday " + result.HoursOfOpSat)
-      //       .addClass(day == 6 ? "current" : "")
-      //   );
-      // if (result.HoursOfOpSun)
-      //   $siteHours.append(
-      //     $("<li></li>")
-      //       .text("Sunday " + result.HoursOfOpSun)
-      //       .addClass(day == 7 ? "current" : "")
-      //   );
 
       $newSite.append($siteHours);
 
@@ -318,7 +278,7 @@ function PopulateResults() {
 
       $siteDetails = $('<ul class="site-details"></ul>');
 
-      if (result.AcptASymWContact && result.AcptASymWContact.toUpperCase() != "NO")
+      if (acceptingAsymptomatic && result.AcptASymWContact && result.AcptASymWContact.toUpperCase() != "NO")
         $siteDetails.append(
           $("<li></li>")
             .text("Accepting asymptomatic patients who may be contacts of infected patients" +

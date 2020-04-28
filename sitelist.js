@@ -20,7 +20,7 @@ $(function () {
     $.ajax({
       type: "get",
       //url:"https://arcgis.metc.state.mn.us/arcgis/rest/services/covid/TestCollectionLocations/MapServer/0//query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
-	  url:"https://services1.arcgis.com/KoDrdxDCTDvfgddz/arcgis/rest/services/TestCollectionLocations/FeatureServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
+      url:"https://services1.arcgis.com/KoDrdxDCTDvfgddz/arcgis/rest/services/TestCollectionLocations/FeatureServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
       dataType: "json",
     })
       .done(function (r) {

@@ -19,8 +19,8 @@ $(function () {
   $.when(
     $.ajax({
       type: "get",
-      url:
-        "https://arcgis.metc.state.mn.us/arcgis/rest/services/covid/TestCollectionLocations/MapServer/0//query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
+      //url:"https://arcgis.metc.state.mn.us/arcgis/rest/services/covid/TestCollectionLocations/MapServer/0//query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
+	  url:"https://services1.arcgis.com/KoDrdxDCTDvfgddz/arcgis/rest/services/TestCollectionLocations/FeatureServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
       dataType: "json",
     })
       .done(function (r) {
@@ -228,11 +228,11 @@ function PopulateResults() {
       $newSite.append(
         $("<div class='health-system'></div>").text(result.HealthSystem)
       );
+      var isSanford = (result.HealthSystem == "Sanford Health");
       $newSite.append(
         $("<div class='site-address'></div>").html(
-          result.CollectAddress1 +
-            "<br>" +
-            (result.CollectAddress2 ? result.CollectAddress2 + "<br>" : "") +
+            (!isSanford ? result.CollectAddress1 + "<br>" : "") +
+            ((!isSanford && result.CollectAddress2) ? result.CollectAddress2 + "<br>" : "") +
             result.City +
             ", " +
             result.State +
@@ -267,7 +267,7 @@ function PopulateResults() {
         $siteHours.append(
           $("<li></li>")
             .text("Weekend Hours : " + result.HoursOfOpSatSun)
-            .addClass(day > 6 || day < 1 ? "current" : "")
+            .addClass(day > 5 || day < 1 ? "current" : "")
         );
       // if (result.HoursOfOpMon)
       //   $siteHours.append(

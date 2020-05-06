@@ -63,7 +63,7 @@ var esriLeafletMap = (function () {
     // });
   };
   return {
-    init: init,
+    init: init
   };
 })();
 esriLeafletMap.init();

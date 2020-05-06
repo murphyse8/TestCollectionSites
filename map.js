@@ -42,7 +42,7 @@ var esriLeafletMap = (function () {
             "{ HealthSystem }" + 
             "<br/><strong> { CollectSiteName }</strong> ";
       if (l.CollectAddress1 && l.CollectAddress1.length > 0) {
-        template += "<br/>{ CollectAddress1 }";
+        template += "<br/>{ CollectAddress1 } ";
         if (l.CollectAddress2 && l.CollectAddress2.length > 0) {
           template += "{ CollectAddress2 }";
         }

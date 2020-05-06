@@ -22,7 +22,8 @@ var esriLeafletMap = (function () {
 
     var testingSites = L.esri.featureLayer({
       //url: "https://arcgis.metc.state.mn.us/arcgis/rest/services/covid/TestCollectionLocations/MapServer/0/",
-      url: "https://services1.arcgis.com/KoDrdxDCTDvfgddz/arcgis/rest/services/TestCollectionLocations/FeatureServer/0",
+      //url: "https://services1.arcgis.com/KoDrdxDCTDvfgddz/arcgis/rest/services/TestCollectionLocations/FeatureServer/0",
+      url: "https://services1.arcgis.com/KoDrdxDCTDvfgddz/ArcGIS/rest/services/CovidTestLocations_ProductionMap/FeatureServer/0",
       where: "1=1",
       pointToLayer: function (geojson, latlng) {
         return L.marker(latlng, {

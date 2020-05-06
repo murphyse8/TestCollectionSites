@@ -41,14 +41,19 @@ var esriLeafletMap = (function () {
       var template =
             "{ HealthSystem }" + 
             "<br/><strong> { CollectSiteName }</strong> ";
-      if (l.CollectAddress1.length > 0 || l.CollectAddress2.length > 0) {
-        template += "<br/>{ CollectAddress1 } { CollectAddress2 }";
+      if (l.CollectAddress1 && l.CollectAddress1.length > 0) {
+        template += "<br/>{ CollectAddress1 }";
+        if (l.CollectAddress2 && l.CollectAddress2.length > 0) {
+          template += "{ CollectAddress2 }";
+        }
       }
       template +=
             "<br/>{ City }, { State } { Zip }" +
             "<br/><strong>Weekdays: </strong> { HoursOfOpMF }" +
-            "<br/><strong>Weekends: </strong> { HoursOfOpSatSun }" +
-            "<br/><strong>Contact Info: <a href='tel: { Phone }'>{ Phone }</a></strong>" +
+            "<br/><strong>Weekends: </strong> { HoursOfOpSatSun }";
+      template +=
+            "<br/><strong>Contact Info: <a href='tel: { Phone }'>{ Phone }</a></strong>";
+      template +=
             "<br/>{ DirUtilCol }" +
             "<br/><button onclick='FilterSite(\"{ CollectSiteName }\")'>See more details below.</button>"
       return L.Util.template(template, l);

@@ -227,9 +227,11 @@ function PopulateResults() {
       $newSite.append(
         $("<h3 class='site-name'></h3>").text(result.CollectSiteName)
       );
-      $newSite.append(
-        $("<div class='health-system'></div>").text(result.HealthSystem)
-      );
+      if (result.HealthSystem != result.CollectSiteName) {
+      	$newSite.append(
+      	  $("<div class='health-system'></div>").text(result.HealthSystem)
+      	);
+      }
       var isSanford = (result.HealthSystem == "Sanford Health");
       $newSite.append(
         $("<div class='site-address'></div>").html(

@@ -21,8 +21,7 @@ var esriLeafletMap = (function () {
     map.createPane("sites");
 
     var testingSites = L.esri.featureLayer({
-      //url: "https://arcgis.metc.state.mn.us/arcgis/rest/services/covid/TestCollectionLocations/MapServer/0/",
-      url: "https://services1.arcgis.com/KoDrdxDCTDvfgddz/arcgis/rest/services/TestCollectionLocations/FeatureServer/0",
+      url: "https://services1.arcgis.com/KoDrdxDCTDvfgddz/ArcGIS/rest/services/CovidTestLocations_ProductionMap/FeatureServer/0",
       where: "1=1",
       pointToLayer: function (geojson, latlng) {
         return L.marker(latlng, {
@@ -41,14 +40,19 @@ var esriLeafletMap = (function () {
       var template =
             "{ HealthSystem }" + 
             "<br/><strong> { CollectSiteName }</strong> ";
-      if (l.CollectAddress1.length > 0 || l.CollectAddress2.length > 0) {
-        template += "<br/>{ CollectAddress1 } { CollectAddress2 }";
+      if (l.CollectAddress1 && l.CollectAddress1.length > 0) {
+        template += "<br/>{ CollectAddress1 } ";
+        if (l.CollectAddress2 && l.CollectAddress2.length > 0) {
+          template += "{ CollectAddress2 }";
+        }
       }
       template +=
             "<br/>{ City }, { State } { Zip }" +
             "<br/><strong>Weekdays: </strong> { HoursOfOpMF }" +
-            "<br/><strong>Weekends: </strong> { HoursOfOpSatSun }" +
-            "<br/><strong>Contact Info: <a href='tel: { Phone }'>{ Phone }</a></strong>" +
+            "<br/><strong>Weekends: </strong> { HoursOfOpSatSun }";
+      template +=
+            "<br/><strong>Contact Info: <a href='tel: { Phone }'>{ Phone }</a></strong>";
+      template +=
             "<br/>{ DirUtilCol }" +
             "<br/><button onclick='FilterSite(\"{ CollectSiteName }\")'>See more details below.</button>"
       return L.Util.template(template, l);
@@ -58,7 +62,7 @@ var esriLeafletMap = (function () {
     // });
   };
   return {
-    init: init,
+    init: init
   };
 })();
 esriLeafletMap.init();

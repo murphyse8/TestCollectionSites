@@ -79,6 +79,16 @@ $(function () {
 
   });
 
+  $('.health-system-filter').on('change', function () {
+  	  FilterHealthSystem($(this).val());
+  	  $('.city-filter').val('');
+  	  $('.county-filter').val('');
+  	  PopulatePager();
+  	  PopulateResults();
+	  $('.directory-item').first().focus();
+
+  });
+
 });
 
 function FilterSite(nameId) {
@@ -119,6 +129,17 @@ function FilterCounty(county) {
 	siteData = [];
 	$.each(allSiteData, function(idx, result) {
 		if (county == "" || (result.County && result.County.trim() == county)) {
+			siteData.push(result);
+		}
+	});
+	currentPage = 1;
+}
+
+function FilterHealthSystem(healthSystem) {
+	// console.log('filter by Health System : ' + healthSystem);
+	siteData = [];
+	$.each(allSiteData, function(idx, result) {
+		if (county == "" || (result.HealthSystem && result.HealthSystem.trim() == healthSystem)) {
 			siteData.push(result);
 		}
 	});
@@ -282,8 +303,8 @@ function PopulateResults() {
       if (acceptingAsymptomatic && result.AcptASymWContact && result.AcptASymWContact.toUpperCase() != "NO")
         $siteDetails.append(
           $("<li></li>")
-            .text("Accepting asymptomatic patients who may be contacts of infected patients" +
-            	((result.AcptASymWContact.toUpperCase() != "YES") ? " (" + result.AcptASymWContact + ")" : ""))
+            .html("Accepting asymptomatic patients who may be contacts of infected patients" +
+            	((result.AcptASymWContact.toUpperCase() != "YES") ? " <b>(" + CleanDetails(result.AcptASymWContact) + ")</b>" : ""))
         );
 
       var acceptingAny = false;
@@ -292,8 +313,8 @@ function PopulateResults() {
       	acceptingAny = true;
         $siteDetails.append(
           $("<li></li>")
-            .text("Accepting any symptomatic patient" +
-            	((result.AcptAnySymPat.toUpperCase() != "YES") ? " (" + result.AcptAnySymPat + ")" : ""))
+            .html("Accepting any symptomatic patient" +
+            	((result.AcptAnySymPat.toUpperCase() != "YES") ? " <b>(" + CleanDetails(result.AcptAnySymPat) + ")</b>" : ""))
         );      	
       } 
 
@@ -317,12 +338,24 @@ function PopulateResults() {
   });
   
   function AddSiteDetails($siteDetails, acceptingAny, details, text) {
+  	details = CleanDetails(details);
 	if (details && details.toUpperCase() != "NO" && (!acceptingAny || (details.toUpperCase() != "YES")))
 	    $siteDetails.append(
 	      $("<li></li>")
-	        .text(text +
-	    	((details.toUpperCase() != "YES") ? " (" + details + ")" : ""))
+	        .html(text +
+	    	((details.toUpperCase() != "YES") ? " <b>(" + details + ")</b>" : ""))
 	    );      	  	
+  }
+
+  function CleanDetails(details) {
+  	if (!details) {
+  		return details;
+  	}
+  	details = details.replace('<Null>', '');
+  	if (details.length > 5 && details.substring(0, 5).toUpperCase() == "YES, ") {
+  		details = details.substring(5);
+  	}
+  	return details;
   }
 
 

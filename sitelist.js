@@ -8,7 +8,7 @@ var currentPage = 1;
 var pageSize = 10;
 var maxPages = 12;
 
-var acceptingAsymptomatic = false;
+var acceptingAsymptomatic = true;
 
 if (!Math.trunc) {
 	Math.trunc = function (v) {
@@ -16,18 +16,22 @@ if (!Math.trunc) {
 	};
 }
 
-$(function () {
+var dataUrlTest = "https://services1.arcgis.com/KoDrdxDCTDvfgddz/arcgis/rest/services/CovidTestLocations_ProductionMapTest/FeatureServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json";
+var dataUrlProd = "https://services1.arcgis.com/KoDrdxDCTDvfgddz/ArcGIS/rest/services/CovidTestLocations_ProductionMap/FeatureServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json";
+var dataUrl = dataUrlProd;
 
+$(function () {
   $.when(
     $.ajax({
       type: "get",
-      url: "https://services1.arcgis.com/KoDrdxDCTDvfgddz/ArcGIS/rest/services/CovidTestLocations_ProductionMap/FeatureServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json",
+      url: dataUrl,
       dataType: "json",
     })
       .done(function (r) {
         if (r.features.length > 0) {
           var searchAddress;
           var searchLoc;
+
           $.each(r.features, function (idx, result) {
 
             if (result.attributes.CollectSiteName) {
@@ -300,13 +304,6 @@ function PopulateResults() {
 
       $siteDetails = $('<ul class="site-details"></ul>');
 
-      if (acceptingAsymptomatic && result.AcptASymWContact && result.AcptASymWContact.toUpperCase() != "NO")
-        $siteDetails.append(
-          $("<li></li>")
-            .html("Accepting asymptomatic patients who may be contacts of infected patients" +
-            	((result.AcptASymWContact.toUpperCase() != "YES") ? " <b>(" + CleanDetails(result.AcptASymWContact) + ")</b>" : ""))
-        );
-
       var acceptingAny = false;
 
       if (result.AcptAnySymPat && result.AcptAnySymPat.toUpperCase() != "NO") {
@@ -329,6 +326,14 @@ function PopulateResults() {
       AddSiteDetails($siteDetails, acceptingAny, result.AcptSymTransPor, "Accepting symptomatic transportation workers");
       AddSiteDetails($siteDetails, acceptingAny, result.AcptSymFood, "Accepting symptomatic grocery/food production workers");
       AddSiteDetails($siteDetails, acceptingAny, result.AcptSymUtil, "Accepting symptomatic utility workers");
+
+      //result.AcptASymWContact = "test this list, more";
+      if (acceptingAsymptomatic && result.AcptASymWContact && result.AcptASymWContact.toUpperCase() != "NO")
+        $siteDetails.append(
+          $("<li></li>")
+            .html("Accepting the following <i>asymptomatic</i> patients: " +
+            	((result.AcptASymWContact.toUpperCase() != "YES") ? " <b>" + CleanDetails(result.AcptASymWContact) + "</b>" : ""))
+        );
 
       $newSite.append($siteDetails);
 

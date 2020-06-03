@@ -328,12 +328,21 @@ function PopulateResults() {
       AddSiteDetails($siteDetails, acceptingAny, result.AcptSymUtil, "Accepting symptomatic utility workers");
 
       //result.AcptASymWContact = "test this list, more";
-      if (acceptingAsymptomatic && result.AcptASymWContact && result.AcptASymWContact.toUpperCase() != "NO")
-        $siteDetails.append(
-          $("<li></li>")
-            .html("Accepting the following <i>asymptomatic</i> patients: " +
-            	((result.AcptASymWContact.toUpperCase() != "YES") ? " <b>" + CleanDetails(result.AcptASymWContact) + "</b>" : ""))
-        );
+      if (acceptingAsymptomatic && result.AcptASymWContact && result.AcptASymWContact.toUpperCase() != "NO") {
+        let asymResult = result.AcptASymWContact.toUpperCase();
+    	if (asymResult == "YES" || asymResult == "ANY" || asymResult == "ALL") {
+        	$siteDetails.append(
+	          $("<li></li>")
+	            .html("Accepting any <i>asymptomatic</i> patient")
+	        );  
+        } else {
+	        $siteDetails.append(
+	          $("<li></li>")
+	            .html("Accepting the following <i>asymptomatic</i> patients: " +
+	            	((result.AcptASymWContact.toUpperCase() != "YES") ? " <b>" + CleanDetails(result.AcptASymWContact) + "</b>" : ""))
+	        );        	
+        }
+      }
 
       $newSite.append($siteDetails);
 

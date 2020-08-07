@@ -260,7 +260,7 @@ function PopulateResults() {
       $newSite.append(
         $("<div class='site-address'></div>").html(
             (!isSanford ? result.CollectAddress1 + "<br>" : "") +
-            ((!isSanford && result.CollectAddress2) ? result.CollectAddress2 + "<br>" : "") +
+            // ((!isSanford && result.CollectAddress2) ? result.CollectAddress2 + "<br>" : "") +
             result.City +
             ", " +
             result.State +
@@ -297,6 +297,13 @@ function PopulateResults() {
             .text("Weekend Hours : " + result.HoursOfOpSatSun)
             .addClass(day > 5 || day < 1 ? "current" : "")
         );
+      if (result.CollectAddress2) {
+      	$siteHours.append(
+          $("<li></li>")
+            .append($('<span>' + replaceURLWithHTMLLinks('For more details, visit ' + result.CollectAddress2) + '</span>'))
+            .addClass('directions')
+        );
+      }
 
       $newSite.append($siteHours);
 

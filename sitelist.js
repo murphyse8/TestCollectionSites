@@ -68,6 +68,7 @@ $(function () {
   $('.city-filter').on('change', function () {
   	  FilterCity($(this).val());
   	  $('.county-filter').val('');
+  	  $('.comm-sites-filter').val('');
   	  PopulatePager();
   	  PopulateResults();
   	  $('.directory-item').first().focus();
@@ -77,6 +78,7 @@ $(function () {
   $('.county-filter').on('change', function () {
   	  FilterCounty($(this).val());
   	  $('.city-filter').val('');
+  	  $('.comm-sites-filter').val('');
   	  PopulatePager();
   	  PopulateResults();
 	  $('.directory-item').first().focus();
@@ -85,6 +87,16 @@ $(function () {
 
   $('.health-system-filter').on('change', function () {
   	  FilterHealthSystem($(this).val());
+  	  $('.city-filter').val('');
+  	  $('.county-filter').val('');
+  	  PopulatePager();
+  	  PopulateResults();
+	  $('.directory-item').first().focus();
+
+  });
+
+  $('.comm-sites-filter').on('change', function () {
+  	  FilterCommunitySitesOnly($(this).val());
   	  $('.city-filter').val('');
   	  $('.county-filter').val('');
   	  PopulatePager();
@@ -144,6 +156,17 @@ function FilterHealthSystem(healthSystem) {
 	siteData = [];
 	$.each(allSiteData, function(idx, result) {
 		if (county == "" || (result.HealthSystem && result.HealthSystem.trim() == healthSystem)) {
+			siteData.push(result);
+		}
+	});
+	currentPage = 1;
+}
+
+function FilterCommunitySitesOnly(communitySitesOnly) {
+	// console.log('filter by Health System : ' + healthSystem);
+	siteData = [];
+	$.each(allSiteData, function(idx, result) {
+		if (communitySitesOnly && (result.SiteID > 1000)) {
 			siteData.push(result);
 		}
 	});
@@ -227,8 +250,10 @@ function UpdatePager() {
 
 function PopulateResults() {
   siteData.sort(function (a, b) {
-    var x = a.CollectSiteName.toLowerCase();
-    var y = b.CollectSiteName.toLowerCase();
+    var x = a.CollectSiteName.replace('MN Community Testing - ', '').toLowerCase();
+    var y = b.CollectSiteName.replace('MN Community Testing - ', '').toLowerCase();
+    //var x = a.SiteID;
+    //var y = b.SiteID;
     if (x < y) {
       return -1;
     }
@@ -285,18 +310,33 @@ function PopulateResults() {
             .addClass('directions')
         );
       }
-      if (result.HoursOfOpMF)
-        $siteHours.append(
-          $("<li></li>")
-            .text("Weekday Hours : " + result.HoursOfOpMF)
-            .addClass(day >= 1 && day <= 5 ? "current" : "")
-        );
-      if (result.HoursOfOpSatSun)
-        $siteHours.append(
-          $("<li></li>")
-            .text("Weekend Hours : " + result.HoursOfOpSatSun)
-            .addClass(day > 5 || day < 1 ? "current" : "")
-        );
+      if (result.SiteID > 2000) {
+	      if (result.HoursOfOpMF)
+	        $siteHours.append(
+	          $("<li></li>")
+	            .text(result.HoursOfOpMF)
+	            .addClass("current")
+	        );
+	      if (result.HoursOfOpSatSun)
+	        $siteHours.append(
+	          $("<li></li>")
+	            .text(result.HoursOfOpSatSun)
+	            .addClass("current")
+	        );
+      } else {
+	      if (result.HoursOfOpMF)
+	        $siteHours.append(
+	          $("<li></li>")
+	            .text("Weekday Hours : " + result.HoursOfOpMF)
+	            .addClass(day >= 1 && day <= 5 ? "current" : "")
+	        );
+	      if (result.HoursOfOpSatSun)
+	        $siteHours.append(
+	          $("<li></li>")
+	            .text("Weekend Hours : " + result.HoursOfOpSatSun)
+	            .addClass(day > 5 || day < 1 ? "current" : "")
+	        );
+      }
       if (result.CollectAddress2) {
       	$siteHours.append(
           $("<li></li>")

@@ -166,7 +166,7 @@ function FilterCommunitySitesOnly(communitySitesOnly) {
 	// console.log('filter by Health System : ' + healthSystem);
 	siteData = [];
 	$.each(allSiteData, function(idx, result) {
-		if (communitySitesOnly && (result.SiteID > 1000)) {
+		if (!communitySitesOnly || (communitySitesOnly && (result.SiteID > 1000))) {
 			siteData.push(result);
 		}
 	});
@@ -249,11 +249,16 @@ function UpdatePager() {
 }
 
 function PopulateResults() {
+  if ($('.comm-sites-filter').val()) {
+     console.log('comm-sites');
+  }
   siteData.sort(function (a, b) {
-    var x = a.CollectSiteName.replace('MN Community Testing - ', '').toLowerCase();
-    var y = b.CollectSiteName.replace('MN Community Testing - ', '').toLowerCase();
-    //var x = a.SiteID;
-    //var y = b.SiteID;
+    var x = a.CollectSiteName.toLowerCase();
+    var y = b.CollectSiteName.toLowerCase();
+    if ($('.comm-sites-filter').val()) {
+    	x = a.City;
+    	y = b.City;
+    }
     if (x < y) {
       return -1;
     }
